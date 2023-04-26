@@ -1,10 +1,8 @@
 const express = require('express')
 const db = require('@supabase/supabase-js')
-// const bodyparser = require('body-parser')
 
 const app = express()
 app.use(express.json())
-// app.use(bodyparser)
 
 app.listen(3000, () => {
   console.log('Iniciando o serviço')
@@ -31,13 +29,9 @@ app.get('/users/:id', async (req, res) => {
 
 // Rota para criar um usuário
 app.post('/users', async (req, res) => {
-  // const { nome } = req.body.nome
-  //   const { endereco } = req.body.endereco
-  //   const { telefone } = req.body.telefone
-  //   const { email } = req.body.email
-
-const { error } = await supabase.from('users').insert({ nome:req.body.nome, endereco:req.body.endereco, telefone:req.body.telefone, email:req.body.email });
-  res.send(error)
+  // const { error } = await supabase.from('users').insert({ nome:req.body.nome, endereco:req.body.endereco, telefone:req.body.telefone, email:req.body.email });
+  const { data,error } = await supabase.from('users').insert({ nome:"Francisco", endereco:"Rua teste", telefone:"(85) 99897-5539", email:"fco@gmail.com" });
+  res.send(data)
 })
 
 // Rota para atualizar um usuário pelo ID
