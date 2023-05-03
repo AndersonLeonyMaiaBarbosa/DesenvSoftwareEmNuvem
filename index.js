@@ -14,27 +14,27 @@ app.get('/', (req, res) => {
   res.send('hello')
 })
 
-// Rota para listar todos os usuários
+// Rota para listar todos os usuários - commit 2
 app.get('/users', async (req, res) => {
   const { data, error } = await supabase.from('users').select('*')
   res.send(data)
 })
 
-// Rota para buscar um usuário pelo ID
+// Rota para buscar um usuário pelo ID - commit 2
 app.get('/users/:id', async (req, res) => {
   const { id } = req.params
   const { data, error } = await supabase.from('users').select('*').eq('id', id)
   res.send(data)
 })
 
-// Rota para criar um usuário
+// Rota para criar um usuário - commit 2
 app.post('/users', async (req, res) => {
   // const { error } = await supabase.from('users').insert({ nome:req.body.nome, endereco:req.body.endereco, telefone:req.body.telefone, email:req.body.email });
   const { data,error } = await supabase.from('users').insert({ nome:"Francisco", endereco:"Rua teste", telefone:"(85) 99897-5539", email:"fco@gmail.com" });
   res.send(data)
 })
 
-// Rota para atualizar um usuário pelo ID
+// Rota para atualizar um usuário pelo ID - commit 2
 app.put('/users/:id', async (req, res) => {
   const { id } = req.params
   const { nome, endereco, telefone, email } = req.body
@@ -42,7 +42,7 @@ app.put('/users/:id', async (req, res) => {
   res.send(data)
 })
 
-// Rota para excluir um usuário pelo ID
+// Rota para excluir um usuário pelo ID - commit 2
 app.delete('/users/:id', async (req, res) => {
   const { id } = req.params
   const { data, error } = await supabase.from('users').delete().eq('id', id)
