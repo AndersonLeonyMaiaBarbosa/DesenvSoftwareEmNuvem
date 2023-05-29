@@ -30,14 +30,24 @@ app.get('/products', async (req, res) => {
 
 app.post('/products', async (req, res) => {
   try {
-    const product = req.body;
-    const { data, error } = await supabase.from('products').insert([product]);
+    const {codigo, nome, marca,preco} = req.body;
+    let novoPreco = preco;
+
+    if (novoPreco.includes(',')) {
+      novoPreco = novoPreco.replace(',', '.');
+    }
+    
+    const { data: products, error } = await supabase.from('products').insert([{codigo, nome, marca, preco: novoPreco}]);
 
     if (error) {
       throw new Error(error.message);
     }
 
-    res.json(data[0]);
+    if (data && data.length > 0) {
+      res.json(data[0]);
+    } else {
+      throw new Error('Failed to add product');
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to add product' });
@@ -48,6 +58,8 @@ app.put('/products/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const updatedProduct = req.body;
+    updatedProduct.preco = updatedProduct.preco.replace(',', '.');
+
     const { data, error } = await supabase
       .from('products')
       .update(updatedProduct)
@@ -57,7 +69,11 @@ app.put('/products/:id', async (req, res) => {
       throw new Error(error.message);
     }
 
-    res.json(data[0]);
+    if (data && data.length > 0) {
+      res.json(data[0]);
+    } else {
+      throw new Error('Failed to update product');
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to update product' });
