@@ -11,6 +11,14 @@ const supabaseUrl = 'https://miwulomfvmchnfgdkmvx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pd3Vsb21mdm1jaG5mZ2RrbXZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQxOTIxNjgsImV4cCI6MTk5OTc2ODE2OH0.4w7xFhwVyVV9WrUFjPrlztjMJvJbspsSST8_aQ7Tgd8';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Configuração de CORS
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 app.get('/products', async (req, res) => {
   try {
     const { data: products, error } = await supabase
@@ -36,7 +44,7 @@ app.post('/products', async (req, res) => {
     if (novoPreco.includes(',')) {
       novoPreco = novoPreco.replace(',', '.');
     }
-    
+
     const { data: products, error } = await supabase.from('products').insert([{codigo, nome, marca, preco: novoPreco}]);
 
     if (error) {
