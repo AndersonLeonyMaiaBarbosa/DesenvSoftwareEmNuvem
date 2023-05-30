@@ -60,7 +60,7 @@ app.post('/products', async (req, res) => {
     if (data && data.length > 0) {
       res.json(data[0]);
     } else {
-      throw new Error('Failed to add product');
+      // // throw new Error('Failed to add product');
     }
   } catch (error) {
     console.error(error);
@@ -86,7 +86,7 @@ app.put('/products/:id', async (req, res) => {
     if (data && data.length > 0) {
       res.json(data[0]);
     } else {
-      throw new Error('Failed to update product');
+      // throw new Error('Failed to update product');
     }
   } catch (error) {
     console.error(error);

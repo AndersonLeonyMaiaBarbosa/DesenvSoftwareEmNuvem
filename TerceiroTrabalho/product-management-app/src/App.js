@@ -9,12 +9,14 @@ function ProductManagement() {
     marca: '',
     preco: '',
   });
-
+const updateTable = () => {
+  fetch('http://3.142.209.75:5000/products')
+  .then((response) => response.json())
+  .then((data) => setProducts(data))
+  .catch((error) => console.error(error));
+}
   useEffect(() => {
-    fetch('http://3.142.209.75:5000/products')
-      .then((response) => response.json())
-      .then((data) => setProducts(data))
-      .catch((error) => console.error(error));
+    updateTable()
   }, []);
 
   function handleSubmit(event) {
@@ -55,6 +57,7 @@ function ProductManagement() {
           marca: '',
           preco: '',
         });
+        updateTable()
       })
       .catch((error) => console.error(error));
   }
@@ -80,7 +83,7 @@ function ProductManagement() {
           throw new Error('Failed to delete product');
         }
       })
-      .then(() => console.log('Product removed successfully'))
+      .then(() => updateTable())
       .catch((error) => console.error(error));
   }
   
