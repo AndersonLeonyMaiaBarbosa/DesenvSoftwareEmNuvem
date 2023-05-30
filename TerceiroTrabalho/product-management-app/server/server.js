@@ -5,7 +5,7 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 
 const corsOptions = {
-  origin: 'http://3.142.209.75',
+  origin: 'http://3.142.209.75:5000',
   methods:'GET, POST, PUT, DELETE',
   allowedHeaders: 'Content-Type',
 };

@@ -11,7 +11,7 @@ function ProductManagement() {
   });
 
   useEffect(() => {
-    fetch('http://localhost:5000/products')
+    fetch('http://3.142.209.75:5000/products')
       .then((response) => response.json())
       .then((data) => setProducts(data))
       .catch((error) => console.error(error));
@@ -33,8 +33,8 @@ function ProductManagement() {
     };
 
     const url = editProductId
-      ? `http://localhost:5000/products/${editProductId}`
-      : 'http://localhost:5000/products';
+      ? `http://3.142.209.75:5000/products/${editProductId}`
+      : 'http://3.142.209.75:5000/products';
 
     fetch(url, requestOptions)
       .then((response) => response.json())
@@ -70,7 +70,7 @@ function ProductManagement() {
       headers: { 'Content-Type': 'application/json' },
     };
   
-    fetch(`http://localhost:5000/products/${productId}`, requestOptions)
+    fetch(`http://3.142.209.75:5000/products/${productId}`, requestOptions)
       .then((response) => {
         if (response.ok) {
           setProducts((prevProducts) =>
