@@ -4,8 +4,15 @@ const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
 
+const corsOptions = {
+  origin: 'http://3.142.209.75',
+  methods:'GET, POST, PUT, DELETE',
+  allowedHeaders: 'Content-Type',
+};
+
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 const supabaseUrl = 'https://miwulomfvmchnfgdkmvx.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pd3Vsb21mdm1jaG5mZ2RrbXZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQxOTIxNjgsImV4cCI6MTk5OTc2ODE2OH0.4w7xFhwVyVV9WrUFjPrlztjMJvJbspsSST8_aQ7Tgd8';
