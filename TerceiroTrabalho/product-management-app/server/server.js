@@ -5,7 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 
 const corsOptions = {
-  origin: 'http://3.142.209.75:5000',
+  origin: '*', // Permitir todas as origens (restringir conforme necessário)
+  methods: '*', // Permitir todos os métodos HTTP
 };
 
 
@@ -17,12 +18,12 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Configuração de CORS
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Referrer-Policy', 'no-referrer');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+//   res.setHeader('Referrer-Policy', 'no-referrer');
+//   next();
+// });
 
 app.get('/products', async (req, res) => {
   try {
