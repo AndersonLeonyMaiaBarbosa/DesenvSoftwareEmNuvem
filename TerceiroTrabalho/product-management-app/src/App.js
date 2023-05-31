@@ -10,7 +10,7 @@ function ProductManagement() {
     preco: '',
   });
 const updateTable = () => {
-  fetch('http://3.142.209.75:5000/products')
+  fetch('http://3.21.207.77:5000/products')
   .then((response) => response.json())
   .then((data) => setProducts(data))
   .catch((error) => console.error(error));
@@ -35,8 +35,8 @@ const updateTable = () => {
     };
 
     const url = editProductId
-      ? `http://3.142.209.75:5000/products/${editProductId}`
-      : 'http://3.142.209.75:5000/products';
+      ? `http://3.21.207.77:5000/products/${editProductId}`
+      : 'http://3.21.207.77:5000/products';
 
     fetch(url, requestOptions)
       .then((response) => response.json())
@@ -73,7 +73,7 @@ const updateTable = () => {
       headers: { 'Content-Type': 'application/json' },
     };
   
-    fetch(`http://3.142.209.75:5000/products/${productId}`, requestOptions)
+    fetch(`http://3.21.207.77:5000/products/${productId}`, requestOptions)
       .then((response) => {
         if (response.ok) {
           setProducts((prevProducts) =>
