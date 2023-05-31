@@ -83,8 +83,9 @@ function ProductManagement() {
             prevProducts.filter((product) => product.id !== productId)
           );
         } else {
-          throw new Error('Failed to delete product
-        })
+          throw new Error('Failed to delete product')
+        }
+      })
         .then(() => updateTable())
         .catch((error) => console.error(error));
     }
