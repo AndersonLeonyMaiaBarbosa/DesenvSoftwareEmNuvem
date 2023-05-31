@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ProductManagement() {
   const [products, setProducts] = useState([]);
@@ -9,14 +10,16 @@ function ProductManagement() {
     marca: '',
     preco: '',
   });
-const updateTable = () => {
-  fetch('http://3.21.207.77:5000/products')
-  .then((response) => response.json())
-  .then((data) => setProducts(data))
-  .catch((error) => console.error(error));
-}
+
+  const updateTable = () => {
+    fetch('http://3.21.207.77:5000/products')
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  };
+
   useEffect(() => {
-    updateTable()
+    updateTable();
   }, []);
 
   function handleSubmit(event) {
@@ -57,7 +60,7 @@ const updateTable = () => {
           marca: '',
           preco: '',
         });
-        updateTable()
+        updateTable();
       })
       .catch((error) => console.error(error));
   }
@@ -67,12 +70,12 @@ const updateTable = () => {
       console.error('Product ID is undefined');
       return;
     }
-  
+
     const requestOptions = {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
     };
-  
+
     fetch(`http://3.21.207.77:5000/products/${productId}`, requestOptions)
       .then((response) => {
         if (response.ok) {
@@ -80,122 +83,128 @@ const updateTable = () => {
             prevProducts.filter((product) => product.id !== productId)
           );
         } else {
-          throw new Error('Failed to delete product');
-        }
-      })
-      .then(() => updateTable())
-      .catch((error) => console.error(error));
+          throw new Error('Failed to delete product
+        })
+        .then(() => updateTable())
+        .catch((error) => console.error(error));
+    }
+  
+    function handleEditProduct(product) {
+      setEditProductId(product.id);
+      setEditProductData({
+        codigo: product.codigo,
+        nome: product.nome,
+        marca: product.marca,
+        preco: product.preco,
+      });
+    }
+  
+    return (
+      <div className="container">
+        <h1>Product Management</h1>
+  
+        <h2>Products</h2>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Código</th>
+              <th>Nome</th>
+              <th>Marca</th>
+              <th>Preço</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.codigo}</td>
+                <td>{product.nome}</td>
+                <td>{product.marca}</td>
+                <td>{product.preco}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleRemoveProduct(product.id)}
+                  >
+                    Remover
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => handleEditProduct(product)}
+                  >
+                    Editar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+  
+        <h2>Adicionar/Editar Produto</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="codigo">Código:</label>
+          <input
+            type="text"
+            id="codigo"
+            name="codigo"
+            value={editProductData.codigo}
+            onChange={(event) =>
+              setEditProductData({
+                ...editProductData,
+                codigo: event.target.value,
+              })
+            }
+          />
+  
+          <label htmlFor="nome">Nome:</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome"
+            value={editProductData.nome}
+            onChange={(event) =>
+              setEditProductData({
+                ...editProductData,
+                nome: event.target.value,
+              })
+            }
+          />
+  
+          <label htmlFor="marca">Marca:</label>
+          <input
+            type="text"
+            id="marca"
+            name="marca"
+            value={editProductData.marca}
+            onChange={(event) =>
+              setEditProductData({
+                ...editProductData,
+                marca: event.target.value,
+              })
+            }
+          />
+  
+          <label htmlFor="preco">Preço:</label>
+          <input
+            type="text"
+            id="preco"
+            name="preco"
+            value={editProductData.preco}
+            onChange={(event) =>
+              setEditProductData({
+                ...editProductData,
+                preco: event.target.value,
+              })
+            }
+          />
+  
+          <button type="submit" className="btn btn-primary">
+            {editProductId ? 'Editar Produto' : 'Adicionar Produto'}
+          </button>
+        </form>
+      </div>
+    );
   }
   
-  function handleEditProduct(product) {
-    setEditProductId(product.id);
-    setEditProductData({
-      codigo: product.codigo,
-      nome: product.nome,
-      marca: product.marca,
-      preco: product.preco,
-    });
-  }
-
-  return (
-    <div>
-      <h1>Product Management</h1>
-
-      <h2>Products</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Código</th>
-            <th>Nome</th>
-            <th>Marca</th>
-            <th>Preço</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.codigo}</td>
-              <td>{product.nome}</td>
-              <td>{product.marca}</td>
-              <td>{product.preco}</td>
-              <td>
-                <button onClick={() => handleRemoveProduct(product.id)}>
-                Remover
-                </button>
-                <button onClick={() => handleEditProduct(product)}>
-                  Editar
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <h2>Adicionar/Editar Produto</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="codigo">Código:</label>
-        <input
-          type="text"
-          id="codigo"
-          name="codigo"
-          value={editProductData.codigo}
-          onChange={(event) =>
-            setEditProductData({
-              ...editProductData,
-              codigo: event.target.value,
-            })
-          }
-        />
-
-        <label htmlFor="nome">Nome:</label>
-        <input
-          type="text"
-          id="nome"
-          name="nome"
-          value={editProductData.nome}
-          onChange={(event) =>
-            setEditProductData({
-              ...editProductData,
-              nome: event.target.value,
-            })
-          }
-        />
-
-        <label htmlFor="marca">Marca:</label>
-        <input
-          type="text"
-          id="marca"
-          name="marca"
-          value={editProductData.marca}
-          onChange={(event) =>
-            setEditProductData({
-              ...editProductData,
-              marca: event.target.value,
-            })
-          }
-        />
-
-        <label htmlFor="preco">Preço:</label>
-        <input
-          type="text"
-          id="preco"
-          name="preco"
-          value={editProductData.preco}
-          onChange={(event) =>
-            setEditProductData({
-              ...editProductData,
-              preco: event.target.value,
-            })
-          }
-        />
-
-        <button type="submit">
-          {editProductId ? 'Editar Produto' : 'Adicionar Produto'}
-        </button>
-      </form>
-    </div>
-  );
-}
-
-export default ProductManagement;
+  export default ProductManagement;
+  
